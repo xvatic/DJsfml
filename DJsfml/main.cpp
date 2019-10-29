@@ -27,12 +27,13 @@ int main( )
     
     game.setFramerateLimit(60);
     
-    Texture t1,t2,t3,t4,t5;
+    Texture t1,t2,t3,t4,t5,t6;
     t1.loadFromFile("/Users/zhenya_rs6/Desktop/SFML/DJsfml/textures/platform1.png");
     t2.loadFromFile("/Users/zhenya_rs6/Desktop/SFML/DJsfml/textures/bg.jpg");
     t3.loadFromFile("/Users/zhenya_rs6/Desktop/SFML/DJsfml/textures/doodle2.png");
     t4.loadFromFile("/Users/zhenya_rs6/Desktop/SFML/DJsfml/textures/monster.png");
     t5.loadFromFile("/Users/zhenya_rs6/Desktop/SFML/DJsfml/textures/go.jpg");
+    t6.loadFromFile("/Users/zhenya_rs6/Desktop/SFML/DJsfml/textures/doodle2r.png");
     Sprite sBackground(t2), sPlat(t1), sPers(t3), sMonster(t4),sGO(t5);
     
     point plat[20];
@@ -63,8 +64,16 @@ int main( )
             if (e.type == Event::Closed)
                 game.close();
         }
-        if (Keyboard::isKeyPressed(Keyboard::Right)) x+=4;
-          if (Keyboard::isKeyPressed(Keyboard::Left)) x-=4;
+        if (Keyboard::isKeyPressed(Keyboard::Right)) {
+            x+=4;
+            sPers.setTexture(t6);
+            
+        }
+        
+        if (Keyboard::isKeyPressed(Keyboard::Left)){
+         x-=4;
+         sPers.setTexture(t3);
+        }
         
         dy+=0.2;
         y+=dy;
@@ -75,19 +84,19 @@ int main( )
             {
                 y=h;
                 plat[i].y=plat[i].y-dy;
-                if (plat[i].y<1024){plat[i].y=0; plat[i].x= rand()%1024;}
+                if (plat[i].y>1024){plat[i].y=0; plat[i].x= rand()%1024;}
             }
         
         for (int i=0;i<10;i++)
         {
-            if ((x+50>plat[i].x) && (x+20<plat[i].x+50) && (y+50>plat[i].y) && (y+70>plat[i].y+14) && (dy>0))
+            if ((x+60>plat[i].x) && (x+30<plat[i].x+128) && (y+78>plat[i].y) && (y+78<plat[i].y+46) && (dy>0))
                 dy=-10;
         }
        
         i=1;
         
-        if ((x==monster[i].x) && (y==monster[i].y) )
-        { game.draw(sGO);}
+        if ((x+60>monster[i].x) && (x+30<monster[i].x+60) && (y+78>monster[i].y+60) && (y+78<monster[i].y+60) )
+        {sBackground.setTexture(t5);}
 
         
         sPers.setPosition(x, y);
